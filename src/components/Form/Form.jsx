@@ -3,8 +3,12 @@ import styles from '../Form/form.module.css';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { addContact } from 'redux/form/formActions';
+import { useDispatch } from 'react-redux';
 
-const Form = ({addContact}) => {
+
+const Form = () => {
+
+  const dispatch = useDispatch()
   // console.log(addContact)
   const [state, setState] = useState({
     name: '',
@@ -28,7 +32,7 @@ const Form = ({addContact}) => {
 
     // console.log(state)
 
-    addContact(state);
+    dispatch(addContact(state));
 
     reset();
   };
@@ -71,16 +75,4 @@ const Form = ({addContact}) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contacts
-  }
-  }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      addContact: obj=>{dispatch(addContact(obj))}
-    }
-  }
-
-export default connect(mapStateToProps,mapDispatchToProps)(Form);
+export default Form;

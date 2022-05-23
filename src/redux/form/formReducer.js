@@ -1,4 +1,6 @@
 import { nanoid } from 'nanoid';
+import { addContact, delContact } from './formActions';
+import { createReducer } from '@reduxjs/toolkit';
 
 const initialContactsList = ()=>{
     const contactsInLocalStorage = localStorage.getItem('contacts');
@@ -13,24 +15,19 @@ const initialContactsList = ()=>{
       ];
 };
 
-const formReducer = (state = initialContactsList(), {type, payload}) => {
-    switch(type) {
-
-        case 'form/contactToAddObj':
-            const newState = [...state].concat(payload);
-            payload.id = nanoid();
-            localStorage.setItem('contacts', JSON.stringify(newState));
-            return ( newState);
-
-        case 'form/contactToDeleteObj':
-          const neWState = [...state].filter(e => e.id !== payload.id);
-            localStorage.setItem('contacts', JSON.stringify([...state].filter(e => e.id !== payload.id)));
+const formReducer = createReducer(initialContactsList, {
+  [addContact]: (state, action) => {
+    const newState = [...state].concat(action.payload);
+    action.payload.id = nanoid();
+                localStorage.setItem('contacts', JSON.stringify(newState));
+                return ( newState);
+  },
+  [delContact]: (state, action)=>{
+          const neWState = [...state].filter(e => e.id !== action.payload.id);
+            localStorage.setItem('contacts', JSON.stringify([...state].filter(e => e.id !== action.payload.id)));
           return (neWState);
-            
-
-        default :return state;
-};
-}
+  }
+})
 
 export default formReducer;
 

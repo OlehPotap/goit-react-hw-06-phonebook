@@ -1,13 +1,16 @@
 import React from 'react';
 import styles from '../Filter/filter.module.css';
-import { connect } from 'react-redux';
-import {changeFilterValue} from '../../redux/filter/filterAction.js'
+import {changeFilterValue} from '../../redux/filter/filterAction.js';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Filter = ({ filterValue, changeFilterValue}) => {
+const Filter = () => {
+
+  const filterValue = useSelector(state => state.filterValue)
+  const dispatch = useDispatch()
 
 
   const handleChange = event => {
-    changeFilterValue(event.target.value)
+    dispatch(changeFilterValue(event.target.value))
   }
 
     return (
@@ -26,18 +29,5 @@ const Filter = ({ filterValue, changeFilterValue}) => {
       </div>
     );
 }
-
-const mapStateToProps = state => {
-  return {
-    filterValue: state.filterValue,
-  }
-  }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      changeFilterValue: value=>{dispatch(changeFilterValue(value))}
-    }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+  export default Filter;
 

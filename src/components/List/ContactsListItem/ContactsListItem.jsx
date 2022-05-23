@@ -1,9 +1,14 @@
 import styles from '../ContactsListItem/contacts-list-item.module.css';
 import { connect } from 'react-redux';
 import { delContact } from 'redux/form/formActions';
+import { useSelector, useDispatch } from 'react-redux';
 
-const ContactsList = ({ filterValue, contactsNew, delContact } = {}) => {
+const ContactsList = () => {
   // const deleteItem = event =>{console.log(event)}
+
+  const filterValue = useSelector(state => state.filterValue)
+  const contactsNew = useSelector(state => state.contacts)
+  const dispatch = useDispatch()
 
   if (filterValue === '' || filterValue === undefined) {
     return contactsNew.map(el => {
@@ -14,7 +19,7 @@ const ContactsList = ({ filterValue, contactsNew, delContact } = {}) => {
           </p>
           <button
             onClick={event => {
-              delContact(el);
+              dispatch(delContact(el));
             }}
           >
             Delete
@@ -35,7 +40,7 @@ const ContactsList = ({ filterValue, contactsNew, delContact } = {}) => {
             </p>
             <button
               onClick={event => {
-                delContact(el);
+                dispatch(delContact(el));
               }}
             >
               Delete

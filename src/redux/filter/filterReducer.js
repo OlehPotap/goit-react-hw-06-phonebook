@@ -1,14 +1,11 @@
+import {changeFilterValue} from './filterAction'
+import { createReducer } from '@reduxjs/toolkit';
 
-
-const filterReducer = (state = '', {type, payload}) => {
-    switch(type) {
-
-        case 'filter/value':
-            return  payload;
-
-        default :return state;
-};
-}
+const filterReducer = createReducer('', {
+    [changeFilterValue]: (state, action) =>  {
+        return state = action.payload
+    }
+})
 
 export default filterReducer;
 
