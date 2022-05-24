@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+
 import { addContact, delContact } from './formActions';
 import { createReducer } from '@reduxjs/toolkit';
 
@@ -18,13 +18,12 @@ const initialContactsList = ()=>{
 const formReducer = createReducer(initialContactsList, {
   [addContact]: (state, action) => {
     const newState = [...state].concat(action.payload);
-    action.payload.id = nanoid();
                 localStorage.setItem('contacts', JSON.stringify(newState));
                 return ( newState);
   },
   [delContact]: (state, action)=>{
           const neWState = [...state].filter(e => e.id !== action.payload.id);
-            localStorage.setItem('contacts', JSON.stringify([...state].filter(e => e.id !== action.payload.id)));
+            localStorage.setItem('contacts', JSON.stringify(neWState));
           return (neWState);
   }
 })

@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from '../Form/form.module.css';
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { addContact } from 'redux/form/formActions';
-import { useDispatch } from 'react-redux';
+import {useSelector, useDispatch } from 'react-redux';
+import Notiflix from 'notiflix';
 
 
 const Form = () => {
+
+  const contactList = useSelector(state => state.contacts)
 
   const dispatch = useDispatch()
   // console.log(addContact)
@@ -24,17 +27,25 @@ const Form = () => {
 
   const handleChange = event => {
     const { name, value } = event.target;
-    setState({ ...state, [name]: value });
+    setState({ ...state, [name]: value,  id: nanoid() });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    // console.log(state)
-
-    dispatch(addContact(state));
-
-    reset();
+    if (
+      contactList.every(el => {
+        return el.name.toLowerCase() !== state.name.toLowerCase();
+      })
+    ) {
+      dispatch(addContact(state));
+      reset();
+    
+    return
+   } else {
+    Notiflix.Notify.warning(`Contact ${state.name} is already exist`);
+   }
+  
   };
 
   const { name, number } = state;
